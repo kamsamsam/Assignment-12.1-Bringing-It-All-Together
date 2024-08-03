@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secret Message Access</title>
+    <!-- Inline CSS for simplicity -->
+    <style>
+        body {
+            font-family: Arial, sans-serif; /* Clean and simple font */
+            background-color: #f4f4f9; /* Light grey background */
+            padding: 20px;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        input[type="text"], input[type="submit"] {
+            display: block;
+            margin: 10px 0;
+            width: 95%;
+        }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
+        header {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>Mahmoud Hamadah's Secret Message Access Page</header>
+    <form onsubmit="return validateInputs()">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required>
+        
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required>
+        
+        <label for="zipCode">Zip Code:</label>
+        <input type="text" id="zipCode" required>
+        
+        <input type="submit" value="Submit">
+    </form>
+
+    <script>
+        // Define a User class to handle user information
+        class User {
+            constructor(firstName, lastName, zipCode) {
+                this.firstName = firstName.trim();
+                this.lastName = lastName.trim();
+                this.zipCode = zipCode;
+            }
+
+            get fullName() {
+                return `${this.firstName} ${this.lastName}`;
+            }
+
+            validateFullName() {
+                // Validate full name length
+                return this.fullName.length <= 20;
+            }
+
+            validateZipCode() {
+                // Validate zip code format
+                return /^\d{5}$/.test(this.zipCode);
+            }
+        }
+
+        // Function to validate user inputs using the User class
+        function validateInputs() {
+            const user = new User(
+                document.getElementById('firstName').value,
+                document.getElementById('lastName').value,
+                document.getElementById('zipCode').value
+            );
+
+            // Check if full name exceeds 20 characters
+            if (!user.validateFullName()) {
+                alert("Full name should not exceed 20 characters.");
+                return false;
+            }
+
+            // Check if zip code is exactly 5 digits
+            if (!user.validateZipCode()) {
+                alert("Zip Code must be exactly 5 digits.");
+                return false;
+            }
+
+            // Display secret message if all validations are passed
+            alert("Access granted! The secret message is: 'Stay curious and keep learning!'");
+            return false; // Prevent form from submitting to keep data on the page
+        }
+    </script>
+</body>
+</html>
